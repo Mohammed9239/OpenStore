@@ -1,0 +1,95 @@
+﻿@model OpenStore.Models.ADS
+@{
+    ViewData["Title"] = "تفاصيل الإعلان";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fab fa-adversal"></i>
+    <h5 class="no-margin">الإعلانات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-street-view icon"></i>
+        <h5>عرض المعلومات</h5>
+    </div>
+    <div class="col-5 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+    <div class="col-12 text-center display-img">
+        <a href="../img/apple-touch-icon.png">
+            <img src="~/Uploads/ADS/@Model.Photo" />
+        </a>
+    </div>
+
+    <div class="row col-12 information-content">
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 nopadding no-margin">
+                <div class="col-12 title">اسم الإعلان</div>
+                <label class="col-12 value">@Model.Name</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">السعر</div>
+                <label class="col-12 value">@Model.Price</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">الصفحة</div>
+                <label class="col-12 value">@Model.Page</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">القسم</div>
+                <label class="col-12 value">@Model.Section</label>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="mt mb row col-12 justify-center">
+        <a onclick="showDialog(this)" href="#" class="col-5 btn btn-danger ml" data="@Model.Name" name="id" value="@Model.ID">
+            <i class="pl fa fa-trash"></i>حذف
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="col-5 btn button-small mr">
+            <i class="pl fa fa-edit"></i>تعديل
+        </a>
+    </div>
+</div>
+
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName"></p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form asp-action="delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->

@@ -1,0 +1,95 @@
+﻿@model OpenStore.Models.Notification
+
+@{
+    ViewData["Title"] = "تواصل معنا";
+}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>تواصل معنا</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS1" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+
+
+
+<!-- ##### Contact Area Start ##### -->
+<div class="contact-area row d-flex align-items-center justify-content-center">
+
+    <div class="col-lg-6 contact-info text-right">
+        <h2>نبذه تعريفية عنا</h2>
+        <p>
+            السوق المفتوح هو واحد من أهم روّاد المواقع الإلكترونية المتخصصة في مجال الإعلانات المبوبة والتي تمكّن المستخدمين سواء كانوا بائعين أم مشترين من بيع وشراء مختلف السلع والمنتجات والخدمات خلال أقصر وقت ممكن وبأقل جهد يُذكر،
+        </p>
+
+        <div class="contact-address mt-50">
+            <p><span>البريد الالكتروني:</span> contact@essence.com <p>
+            <p><span>الهاتف:</span> 967715336843+</p>
+            <p><span>الواتساب:</span> 967715336843+</p>
+            <p><span> نحن في خدمتك دائما</span> </p>
+        </div>
+    </div>
+
+    <div class="col-lg-6 contact-info text-right">
+        <h4>ارسال ملاحظة او استقسار</h4>
+        <form asp-action="Contact">
+            <div class="mt-4">
+                <label for="first_name"><h6> العنوان</h6></label>
+                <input asp-for="Title" class="form-control" placeholder="العنوان" required>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <label for="first_name"><h6> الاستفسار</h6></label>
+                <textarea asp-for="Message" class="form-control" cols="30" rows="9" placeholder="الاستفسار" required></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <button type="submit" class="btn btn-success mt-3"> ارسال </button>
+
+                }
+
+                else
+                {
+                    <a class="btn btn-success mt-3" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Contact", "Home")">يرجئ تسجيل الدخول</a>
+
+                }
+            }
+        </form>
+    </div>
+
+</div>
+<!-- ##### Contact Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS2" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->

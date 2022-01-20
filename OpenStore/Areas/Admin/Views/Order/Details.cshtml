@@ -1,0 +1,156 @@
+﻿@model OrderVm
+@{
+    ViewData["Title"] = "تفاصيل الطلب";
+    int count = 0;
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-shopping-bag"></i>
+    <h5 class="no-margin">الطلبات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-street-view icon"></i>
+        <h5>عرض المعلومات</h5>
+    </div>
+    <div class="col-5 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a href="index.html" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<a class="row col-12 no-padding no-margin" href="../img/product.jpg">
+    <div style="background-image: url(/Uploads/Order/@Model.BankImg);" id="img" class="mb mt imgProduct col-12">
+    </div>
+</a>
+
+<div class="row col-12 information-content">
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 nopadding no-margin">
+            <div class="col-12 title">الإسم</div>
+            <a href="#">
+                <i class="fa fa-eye eye-display"></i>
+            </a>
+            <label class="col-12 value">@Model.SallerName</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">رقم الجوال</div>
+            <label class="col-12 value">@string.Join(" , ",Model.Phone)</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">التكلفة</div>
+            <label class="col-12 value">@Model.Cost</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">حالة الطلبية</div>
+            <label class="col-12 value">@Html.DisplayFor(i=>Model.State)</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">المحافظة</div>
+            <label class="col-12 value">@Model.City</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">المدينة</div>
+            <label class="col-12 value">@Model.Province</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">المنطقة</div>
+            <label class="col-12 value">@Model.Street</label>
+        </div>
+    </div>
+    <div class="col-8 col-lg-4 col-md-4 all-information">
+        <div class="col-12 no-padding no-margin">
+            <div class="col-12 title">رقم الحوالة</div>
+            <label class="col-12 value">@Model.BankNum</label>
+        </div>
+    </div>
+
+
+    <div class="table col-12">
+
+        <div class="col-12 table-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>اسم البضاعة</td>
+                        <td>السعر</td>
+                        <td>الكمية</td>
+                        <td>الصنف الرئيسي</td>
+                        <td>الصنف الفرعي</td>
+                        <td>العمليات</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderProducts)
+                    {
+                    <tr>
+                        <td>@(++count)</td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Price</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product.GetCategoryLev2.CategoryLev1.Name</td>
+                        <td>@item.Product.GetCategoryLev2.Name</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductID"><i class="fa fa-eye fa-fw op"></i></a>
+                        </td>
+                    </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt mb row col-12 justify-center">
+        <a onclick="showDialog(this)" href="#" class="col-5 btn btn-danger ml" data="الطلبية" name="id" value="1">
+            <i class="pl fa fa-trash"></i>حذف
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="col-5 btn button-small mr">
+            <i class="pl fa fa-edit"></i>تعديل
+        </a>
+    </div>
+</div>
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName">محمد سعيد</p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form method="post" action="delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID href="index.html" class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->

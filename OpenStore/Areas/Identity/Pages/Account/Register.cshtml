@@ -1,0 +1,160 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "انشاء حساب";
+}
+
+<style>
+    .select-box {
+        display: flex;
+        flex-direction: column;
+        text-align: right;
+        margin-bottom: 20px;
+    }
+
+    .nice-select {
+        width: 100%;
+        border: 1px solid #ccc;
+    }
+</style>
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(@Url.Content("~/Home/img/bg-img/breadcumb.jpg"));">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>انشاء حساب</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+<!-- ##### Login Area Start ##### -->
+<div class="login-area mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="login-page">
+                    <div class="login-form">
+                        <div class="row justify-content-center">
+                            <form asp-route-returnUrl="@Model.ReturnUrl" method="post" id="contactForm" class="log-form">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">الاسم الكامل</label>
+                                    <input asp-for="Input.FullName" id="name" class="form-control" placeholder="الاسم الرباعي" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">اسم المستخدم</label>
+                                    <input asp-for="Input.UserName" type="text" id="name" class="form-control" placeholder="اسم المستخدم : مثل mohammed9239" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">البريد الالكتروني</label>
+                                    <input asp-for="Input.Email" type="text" id="name" class="form-control" placeholder="البريد الالكتروني" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">كلمة المرور</label>
+                                    <input asp-for="Input.Password" id="msg_subject" class="form-control" placeholder="كلمة المرور" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 select-box">
+                                    <label class="float-right" for="">المحافظة</label>
+                                    <div class="d-flex">
+                                        <select name="select" id="Cities" style="width: 100%;" asp-items="ViewBag.City">
+                                            <option value="">اختر</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 select-box">
+                                    <label class="float-right" for="">المدينة</label>
+                                    <div class="d-flex Provinces">
+                                        <select asp-for="Input.ProvinceID" id="Provinces" style="width: 100%;">
+                                            <option value="">اختر</option>
+                                        </select>
+                                        <span asp-validation-for="Input.ProvinceID" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">العنوان</label>
+                                    <input asp-for="Input.Streat" id="msg_subject" class="form-control" placeholder="العنوان / مثل - فوه - المساكن " required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.Streat" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">رقم الهاتف</label>
+                                    <input asp-for="Input.Phone" id="msg_subject" class="form-control" placeholder="رقم الهاتف" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="check-group flexbox">
+                                        <label class="check-box">
+                                            <input type="checkbox" class="check-box-input" checked>
+                                            <span class="remember-text">الموافقة على الشروط والاحكام</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="submit" id="submit" class="login-btn">انشاء الحساب</button>
+                                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                @*<div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="clear"></div>
+                                    <div class="separetor"><span>انشاء حساب بواسطة</span></div>
+                                    <div class="sign-icon">
+                                        <ul>
+                                            <li><a class="facebook" href="#">Facebook</a></li>
+                                            <li><a class="twitter" href="#">twitter</a></li>
+                                            <li><a class="google" href="#">google+</a></li>
+                                        </ul>
+                                        <div class="acc-not">  لدي حساب <a href="login.html"> تسجيل الدخول</a></div>
+                                    </div>
+                                </div>*@
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Login Area End ##### -->
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+
+        $('#Cities').on("change", function () {
+            var selc = document.getElementById("Cities").value;
+            $('#Provinces').find('option:not(:first)').remove();
+            $('.Provinces .list').find('li:not(:first)').remove();
+            $('.Provinces .current').text('اختر');
+            $.ajax({
+                type: "GET",
+                url: "/Home/Provinces/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                    if (results.length > 0) {
+                        for (i in results) {
+                            $('#Provinces').append(new Option(results[i].name, results[i].id));
+                            $('.Provinces .list').append('<li data-value=' + results[i].id + ' class="option">' + results[i].name +'</li>');
+
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+}
+ 
+

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<OpenStore.Models.Notification>
+
+@{
+    ViewData["Title"] = "الاشعارات";
+}
+
+<style>
+    ul.timeline {
+        list-style-type: none;
+        position: relative;
+    }
+
+        ul.timeline:before {
+            content: ' ';
+            background: #d4d9df;
+            display: inline-block;
+            position: absolute;
+            right: 29px;
+            width: 2px;
+            height: 100%;
+            z-index: 400;
+        }
+
+        ul.timeline > li {
+            margin: 20px 0;
+            padding-right: 20px;
+        }
+
+            ul.timeline > li:before {
+                content: ' ';
+                background: white;
+                display: inline-block;
+                position: absolute;
+                border-radius: 50%;
+                border: 3px solid #22c0e8;
+                right: 20px;
+                width: 20px;
+                height: 20px;
+                z-index: 400;
+            }
+
+    .contact-area a, .contact-area p {
+        margin-right: 38px;
+    }
+
+    .contact-area a {
+        color: #22c0e8;
+    }
+
+    .h2 {
+        font-size: 20px;
+        color: #22c0e8;
+    }
+</style>
+
+
+
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>الاشعارات</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS1" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+
+
+
+
+<!-- ##### NotificationList Area Start ##### -->
+<div class="contact-area row text-right">
+
+    <div class="container mt-5 mb-5">
+
+        <div class="col-md-8 mx-auto">
+            <h4 class="mb-4"> جميع الاشعارات </h4>
+            <hr />
+            <ul class="timeline">
+
+                @foreach (var item in Model)
+                {
+                <li>
+                    <a class="h2" asp-action="Notification" asp-route-id="@item.ID" target="_blank">@item.Title</a>
+                    <a href="#" class="float-left">@item.Date.Date</a>
+                    <p>@item.Message...</p>
+                </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+<!-- ##### NotificationList Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS2" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->

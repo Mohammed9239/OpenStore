@@ -1,0 +1,89 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "تسجيل الدخول";
+}
+
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(@Url.Content("~/Home/img/bg-img/breadcumb.jpg"));">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>تسجيل الدخول</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+
+<!-- ##### Login Area Start ##### -->
+<div class="login-area mt-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="login-page">
+                    <div class="login-form">
+                        <div class="row justify-content-center">
+                            <form id="contactForm" method="post" class="log-form">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">اسم المستخدم</label>
+                                    <input asp-for="Input.UserName" id="name" class="form-control" placeholder="اسم المستخدم" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <label class="float-right" for="">كلمة المرور</label>
+                                    <input asp-for="Input.Password" id="msg_subject" class="form-control" placeholder="كلمة المرور" required data-error="هذا الحقل مطلوب">
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="check-group flexbox">
+                                        <label class="check-box">
+                                            <input asp-for="Input.RememberMe" class="check-box-input">
+                                            <span class="remember-text">تذكرني</span>
+                                        </label>
+
+                                        @*<a class="text-muted" href="forgetpassword.html">نسيت كلمة المرور؟</a>*@
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <button type="submit" id="submit" class="login-btn">دخول</button>
+                                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div class="clear"></div>
+                                    <div class="separetor"><span>انشاء حساب بواسطة</span></div>
+                                    <div class="sign-icon">
+
+                                        @*<ul>
+                                            <li><a class="facebook" href="#">Facebook</a></li>
+                                            <li><a class="twitter" href="#">twitter</a></li>
+                                            <li><a class="google" href="#">google+</a></li>
+                                        </ul>*@
+
+                                        <div class="acc-not">انشاء حساب جديد <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> انشاء حساب</a></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Login Area End ##### -->
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

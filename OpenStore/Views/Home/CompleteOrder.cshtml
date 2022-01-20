@@ -1,0 +1,174 @@
+﻿@model OpenStore.Models.Order
+
+@{
+    ViewData["Title"] = "اكمال الطلب";
+    double Cost = 0;
+}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>اكمال الطلب</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80-0">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS1" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+
+
+
+<!-- ##### Checkout Area Start ##### -->
+<div class="checkout_area section-padding-80 text-right">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 col-md-6">
+                <form asp-action="CompleteOrder">
+                    <input type="hidden" asp-for="ID" />
+                    <input type="hidden" asp-for="ProvinceID" />
+                    <input type="hidden" id="cost" name="Cost" />
+                    <div class=" d-block mb-2">
+                        <label class=""> <h5> معلومات الدفع </h5></label>
+                    </div>
+
+                    <div class=" mt-50 clearfix">
+
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="Num">رقم السند <span>*</span></label>
+                                <input name="BankNum" class="form-control" id="Num" placeholder="ادخل سند الايداع ">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label for="Img">صورة السند <span>*</span></label>
+                                <input name="BankImg" type="file" class="form-control mb-3" id="Img">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="custom-control custom-checkbox d-block mb-2">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                        <label class="custom-control-label" for="customCheck1"> <h5>التوصيل الى لتوصيل عنوان مختلف</h5></label>
+                    </div>
+
+                    <div class="checkout_details_area mt-50 clearfix">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label for="country">المحافظة <span>*</span></label>
+                                <select class="w-100" id="Cities" asp-items="ViewBag.City">
+                                    <option value="">اختر</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-3 Provinces">
+                                <label for="country">المدينة <span>*</span></label>
+                                <select name="NewProvinceID" class="w-100" id="Provinces">
+                                    <option value="0">اختر</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="street_address">العنوان <span>*</span></label>
+                                <input asp-for="Street" class="form-control mb-3" id="street_address">
+                            </div>
+                        </div>
+                    </div>
+                    <input id="btnSubmit" hidden type="submit" value="submit" />
+                </form>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-5 mr-lg-auto">
+                <div class="order-details-confirmation">
+
+                    <div class="cart-page-heading">
+                        <h5>طلبك</h5>
+                        <p>التفاصيل</p>
+                    </div>
+
+                    <ul class="order-details-form mb-4">
+                        <li><span>المنتجات</span> <span>الكمية</span> <span>السعر</span></li>
+
+                        @{ foreach (var item in Model.OrderProducts)
+                            {
+                                <li><span>@item.Product.Name</span> <span>@item.Quantity</span> <span>RY @(item.Price * item.Quantity)</span></li>
+                                Cost += item.Price * item.Quantity;
+                            }
+                        }
+
+                        <li><span>المجموع</span> <span></span> <span>RY @Cost</span></li>
+                    </ul>
+                    <input id="ok" class="btn essence-btn" value="اكمال الطلب" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Checkout Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS2" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+
+
+
+@section Scripts{
+
+    <script>
+        $('#customCheck1').on("click", function () {
+            $('.checkout_details_area').fadeToggle();
+        });
+
+        $('#ok').on("click", function () {
+            $('#cost').val(@Cost);
+            $('#btnSubmit').click();
+        });
+
+        $('#Cities').on("change", function () {
+            var selc = document.getElementById("Cities").value;
+            $('#Provinces').find('option:not(:first)').remove();
+            $('.Provinces .list').find('li:not(:first)').remove();
+            $('.Provinces .current').text('اختر');
+            $.ajax({
+                type: "GET",
+                url: "/Home/Provinces/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                    if (results.length > 0) {
+                        for (i in results) {
+                            $('#Provinces').append(new Option(results[i].name, results[i].id));
+                            $('.Provinces .list').append('<li data-value=' + results[i].id + ' class="option">' + results[i].name +'</li>');
+
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+}

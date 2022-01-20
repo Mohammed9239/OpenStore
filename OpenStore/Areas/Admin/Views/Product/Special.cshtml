@@ -1,0 +1,135 @@
+﻿@model IEnumerable<ProductVm>
+
+@{
+    ViewData["Title"] = "المنتجات المميزة";
+    int count = 0;
+}
+<div class="row col-12 content-heade">
+    <i class="fa fa-product-hunt"></i>
+    <h5 class="no-margin">المنتجات المميزة</h5>
+</div>
+<div class="content">
+    <div class="table-head col-8">
+        <i class="fa fa-list icon "></i>
+        <h5>قائمة المنتجات المميزة</h5>
+    </div>
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Create" class="btn button-small" type="submit">
+                <i class=" fa fa-plus"></i>اضف
+            </a>
+        </div>
+    </div>
+    <div class="top row">
+        <div class="form col-12">
+            <form class="col-12" asp-action="Index" method="post">
+                <select name="select" class="col-4 col-lg-3 col-md-3 col-sm-3">
+                    <option value="">اختر</option>
+                    <option value="1">اسم البائع</option>
+                    <option value="2">اسم المنتج</option>
+                    <option value="3">الصنف</option>
+                </select>
+                <input name="search" type="text" class="col-6 col-lg-7 col-md-7 col-sm-7 search-field" placeholder="البحث" />
+                <button class="col-2 col-lg-2 col-md-2 col-sm-2 fa fa-search"></button>
+            </form>
+        </div>
+    </div>
+    <div class="table col-12">
+
+        <div class="col-12 table-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>اسم البائع</td>
+                        <td>اسم المنتج</td>
+                        <td>الكمية</td>
+                        <td>السعر</td>
+                        <td>الصنف</td>
+                        <td>العمليات</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(++count)</td>
+                            <td>@item.StoreName</td>
+                            <td>@item.ProductName</td>
+                            <td>@item.Qunatity</td>
+                            <td>@item.Price</td>
+                            <td>@item.CategoryLev1</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.ID"><i class="fa fa-eye fa-fw op"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.ID"><i class="fa fa-edit fa-fw op"></i></a>
+                                <a data="@item.ProductName" name="id" value="@item.ID" onclick="showDialog(this)" href="#"><i class="fa fa-trash fa-fw op"></i></a>
+                                @{
+                                    if (item.Special == 0)
+                                    {
+                                        <a id="Special" value="@item.ID" onclick="changeColor(this); chn(this)" href="#"><i class="fa fa-star fa-fw op"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <a id="Special" value="@item.ID" onclick="changeColor(this); chn(this)" href="#"><i class="fa fa-star fa-fw op Start star"></i></a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="paging col-12">
+        <partial name="_Pager1" />
+    </div>
+</div>
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName"></p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form asp-action="delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID href="index.html" class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->
+
+
+@section Scripts {
+
+    <script>
+
+        function chn(e) {
+            console.log(e.getAttribute('value'));
+            var v = e.getAttribute('value');
+            $.ajax({
+                type: "POST",
+                url: "/Admin/Product/ChangeSpecial/" + v,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                }
+            });
+        }
+    </script>
+}

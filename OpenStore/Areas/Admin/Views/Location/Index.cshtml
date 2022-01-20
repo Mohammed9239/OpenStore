@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewData["Title"] = "المواقع";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-map-marked-alt"></i>
+    <h5 class="no-margin">المواقع</h5>
+</div>
+<div class="content">
+
+    <div class="table-head col-6 no-padding">
+        <i class="fa fa-list icon "></i>
+        <h5>قائمة المواقع</h5>
+    </div>
+
+    <div class="col-6 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="AddCity" class="btn button-small" type="submit">
+                <i class=" fa fa-plus"></i>إضافة محافظة
+            </a>
+        </div>
+    </div>
+
+
+    <div class="add-form col-12">
+        <form class="row" action="#" method="post">
+            <h5 class="col-12 text-right">المحافظة</h5>
+            <select id="CityID" onchange="showLocations(this)" class="form-control col-12" asp-items="ViewBag.CityID">
+                <option value="0">اختر</option>
+            </select>
+        </form>
+    </div>
+
+    <div id="locations" style="display: none;" class="mt row col-12 information-content">
+
+        <div style="background-color:var(--darkPurple);" class="col-6 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div id="selected" style="color:var(--white); border-bottom: white 2px solid;" class="white col-12 title"></div>
+                <a name="id" id="edit" class="ml" href="editCity.html"><i class="i-location fa fa-edit fa-fw op "></i></a>
+            </div>
+        </div>
+
+
+        <div id="province" style="display: none;" class="mt row col-12 information-content">
+
+
+        </div>
+
+        <div class="col-12 button-heade no-padding ">
+            <div class="col-12 no-padding no-margin text-center">
+                <a id="add" name="id" class="btn button-small" type="submit">
+                    <i class=" fa fa-plus"></i>إضافة منطقة
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName"></p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form asp-action="Delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID href="index.html" class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->
+
+
+
+@section Scripts{
+
+    <script>
+        $list = $("#province");
+        var selc = document.getElementById("CityID").value;
+
+        $('#CityID').on("change", function () {
+            selc = document.getElementById("CityID").value;
+            $('#edit').attr('href', '/Admin/Location/EditCity/' + selc);
+            $('#province').empty();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Location/GetP/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                    if (results.length > 0) {
+                        for (i in results) {
+                            $list.append('<div class="col-3 col-lg-2 col-md-2 all-information"><div class="col-12 no-padding no-margin"><div class="col-12 title">' + results[i].name + '</div><a href="/Admin/Location/EditProvince/' + results[i].id + '"><i class="fa fa-edit fa-fw op eye-display"></i></a><a onclick="showDialog2(this)" name="id" value="' + results[i].id + '" data="' + results[i].name + '" class="FK" FK_name="FK_name" href="#"><i class="fa fa-trash fa-fw op eye-display"></i></a></div></div>');
+                        }
+                    }
+                    else {
+                        $('.pro1').find('option:not(:first)').remove();
+                    }
+                }
+            });
+        });
+
+        $('#add').on("click", function () {
+            selc = document.getElementById("CityID").value;
+            console.log(selc);
+            if (selc == 0) {
+                return false
+            }
+            else {
+                $('#add').attr('href', '/Admin/Location/AddProvince/' + selc);
+
+            }
+        });
+
+        $('#edit').on("click", function () {
+            selc = document.getElementById("CityID").value;
+            console.log(selc);
+            if (selc == 0) {
+                return false
+            }
+            else {
+                $('#edit').attr('href', '/Admin/Location/EditCity/' + selc);
+
+            }
+        });
+
+
+    </script>
+
+}

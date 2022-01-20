@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <title>@ViewData["Title"] - لوحة التحكم</title>
+
+    <!-- Favicons -->
+    <link href="~/Admin/img/Logo/NovelLogo.svg" rel="icon">
+    <link href="~/Admin/img/Logo/NovelLogo.svg" rel="apple-touch-icon">
+    <!-- Bootstrap core CSS -->
+    <link href="~/Admin/lib/bootstrap.min.css" rel="stylesheet">
+    <!--external css-->
+    <link href="~/Admin/css/all.min.css" rel="stylesheet">
+    <link href="~/Admin/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Admin/css/style.css" rel="stylesheet">
+</head>
+
+
+<body>
+
+    <!--header start-->
+    <header class="header black-bg">
+        <div class="top-bars">
+            <div onclick="convert(this)" class="fa fa-bars tooltips"></div>
+        </div>
+        <!--logo start-->
+        <a href="~/Admin/img/Logo/NovelLogo.svg" class="logo img-width-height">
+            <img src="~/Admin/img/Logo/NovelLogo.svg" />
+        </a>
+        <!--logo end-->
+        <div class="top-menu">
+            <ul class="nav pull-right top-menu">
+                <li><a class="store" asp-area="" asp-controller="Home" asp-action="Index"><span>الإنتقال إلى المتجر</span><i class="fas fa-store-alt"></i></a></li>
+                <li>
+                    <a class="logout" onclick="document.getElementById('btnLogout').click();">
+                        <span>تسجيل خروج</span><i class="fas fa-door-open"></i>
+                    </a>
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <input id="btnLogout" hidden type="submit" value="submit" />
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+    </header>
+    <!--header end-->
+    <!--sidebar start-->
+    <aside>
+        <div id="sidebar" class="scroll nav-collapse">
+            <!-- sidebar menu start-->
+            <ul class="sidebar-menu" id="nav-accordion">
+                <p class="centered">
+                    <a href="~/Admin/img/blank-avatar.jpg"><img src="~/Admin/img/blank-avatar.jpg" class="img-circle" width="80"></a>
+                </p>
+                @*<h5 class="centered">اسم المستخدم</h5>*@
+                <h5 class="centered"> @User.Identity.Name</h5>
+
+                @*القوائم للمدير*@
+                @if (User.IsInRole("مدير") || User.IsInRole("موظف"))
+                {
+                    <li class="mt">
+                        <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                            <i class="fa fa-dashboard"></i>
+                            <span>الرئيسية</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a class="active" onclick="displayList(this)">
+                            <i class="fa fa-users"></i>
+                            <span>المستخدمين</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li>
+                                <a asp-area="Admin" asp-controller="User" asp-action="Index">
+                                    قائمة المستخدمين
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="User" asp-action="Create">
+                                    إضافة مستخدم
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fa fa-chart-pie "></i>
+                            <span>الأصناف</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Category" asp-action="Index">قائمة الأصناف</a></li>
+                            <li><a asp-area="Admin" asp-controller="Category" asp-action="AddCategoryLev1">إضافة صنف</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fab fa-product-hunt fa-fw right-icon"></i>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                            <span>المنتجات</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Index">عرض المنتجات</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Create">إضافة منتج</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Special">المنتجات المميزة</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fab fa-adversal"></i>
+                            <span>الإعلانات</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="ADS" asp-action="Index">قائمة الإعلانات</a></li>
+                            <li><a asp-area="Admin" asp-controller="ADS" asp-action="Create">إضافة إعلان</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fa fa fa-shopping-bag"></i>
+                            <span>الطلبات</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Order" asp-action="Index">قائمة الطلبات</a></li>
+                            <li><a asp-area="Admin" asp-controller="Order" asp-action="Completed">الطلبات المكتملة</a></li>
+                            <li><a asp-area="Admin" asp-controller="Order" asp-action="UnCompleted">الطلبات غير المكتملة</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fas fa-angry"></i>
+                            <span>الاستفسارات</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Inquiry" asp-action="Index">عرض الاستفسارات</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fa fa-bell"></i>
+                            <span>الإشعارات</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Notification" asp-action="Index">عرض الإشعارات</a></li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span>المواقع</span>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Location" asp-action="Index">عرض المواقع</a></li>
+                            <li><a asp-area="Admin" asp-controller="Location" asp-action="AddCity">إضافة موقع</a></li>
+                        </ul>
+                        <ul style="visibility:visible" class="sub">
+                            <li><a asp-area="Admin" asp-controller="Location" asp-action="Index">عرض المواقع</a></li>
+                            <li><a></a></li>
+                        </ul>
+                    </li>
+                }
+
+
+                @*القوائم للمتجر*@
+                @if (User.IsInRole("متجر"))
+                {
+                    <li class="sub-menu">
+                        <a onclick="displayList(this)">
+                            <i class="fab fa-product-hunt fa-fw right-icon"></i>
+                            <i class="fa fa-angle-fa fa-angle-down triangle"></i>
+                            <span>المنتجات</span>
+                        </a>
+                        <ul class="sub">
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Index">عرض المنتجات</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Create">إضافة منتج</a></li>
+                            <li><a asp-area="Admin" asp-controller="Product" asp-action="Special">المنتجات المميزة</a></li>
+
+                        </ul>
+                    </li>
+                }
+
+            </ul>
+            <!-- sidebar menu end-->
+        </div>
+    </aside>
+    <!--sidebar end-->
+    <!--main content start-->
+    <!-- ************************************************************* -->
+    <section id="main-content">
+        @RenderBody()
+    </section>
+    <!--main content end-->
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/Admin/js/main.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+
+</html>

@@ -1,0 +1,58 @@
+﻿@model OpenStore.Models.Notification
+
+@{
+    ViewData["Title"] = "تفاصيل الاستفسارات";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-bell"></i>
+    <h5 class="no-margin">الاستفسارات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-street-view icon"></i>
+        <h5>عرض المعلومات</h5>
+    </div>
+    <div class="col-5 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+    <div class="row col-12 information-content">
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 nopadding no-margin">
+                <div class="col-12 title">عنوان الاستفسار</div>
+                <label class="col-12 value"> @Html.DisplayFor(model => model.Title) </label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">مرسل الاستفسار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Receiver.FullName)</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">نوع الاستفسار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Type)</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">تاريخ الاستفسار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Date)</label>
+            </div>
+        </div>
+        <div class="col-12 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">الاستفسار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Message)</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+

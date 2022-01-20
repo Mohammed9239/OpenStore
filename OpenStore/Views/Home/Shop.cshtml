@@ -1,0 +1,186 @@
+﻿@model IEnumerable<OpenStore.Models.Product>
+
+@{
+    ViewData["Title"] = "صفحة التسوق";
+}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>صفحة التسوق</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS1" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+
+
+
+<!-- ##### Shop Grid Area Start ##### -->
+<section class="shop_grid_area section-padding-80 text-right">
+    <div class="container">
+
+        <form asp-action="Shop">
+            <div class="col-12">
+                <div class="shop_grid_product_area">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="product-topbar d-flex align-items-center justify-content-between">
+
+                                <!-- CategoryLev1 -->
+                                <div class="shop_sidebar_area">
+                                    <!-- ##### Single Widget ##### -->
+                                    <div class="widget catagory mb-50">
+                                        <!-- Widget Title -->
+                                        <h6 class="widget-title mb-30">الاصناف</h6>
+                                        <!--  Catagories  -->
+                                        <div class="">
+                                            <div class="select-box d-flex">
+                                                <select name="CategoryLev1" style="width: 100%;" asp-items="ViewBag.CategoryLev1ID" onchange="document.getElementById('btnFilters').click();">
+                                                    <option value="">الكل</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Total Products -->
+                                <div class="total-products d-flex">
+                                    @if (ViewBag.word != null)
+                                    {
+                                        <p style="margin-left:5px"> البحث عن <span>@ViewBag.word</span> </p>
+
+                                    }
+                                    <p> عدد المنتجات <span>@Model.ToList().Count</span> </p>
+                                    @if (ViewBag.CatName != null)
+                                    {
+                                        <p style="margin-right:5px"> في قسم <span>@ViewBag.CatName</span> </p>
+                                    }
+
+                                    @if (ViewBag.sort != null)
+                                    {
+                                        <p style="margin-right:5px"> الترتيب بحسب <span>@ViewBag.sort</span> </p>
+                                    }
+
+                                </div>
+
+                                <!-- Sorting -->
+                                <div class="product-sorting d-flex">
+                                    <p>ترتيب بحسب:</p>
+                                    <select name="select" id="sortByselect" onchange="document.getElementById('btnFilters').click();">
+                                        <option value="">الكل</option>
+                                        <option value="1">الاعلى تقيم</option>
+                                        <option value="2">الاعلى سعر</option>
+                                        <option value="3">الاقل سعر</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        @foreach (var item in Model)
+                        {
+                            <!-- Single Product -->
+                            <div class="col-12 col-sm-6 col-lg-3">
+                                <div class="single-product-wrapper">
+                                    <!-- Product Image -->
+                                    <div class="product-img">
+                                        <img src="/Uploads/ProductImg/@item.Imgs.FirstOrDefault(i=>i.ImgUrl.StartsWith("fav"))?.ImgUrl" alt="">
+
+                                        @if (item.Discount != 0)
+                                        {
+                                            <!-- Product Badge -->
+                                            <div class="product-badge offer">
+                                                <span>-@(((item.Price-item.Discount)*100)/item.Price)%</span>
+                                            </div>
+                                        }
+
+                                    </div>
+                                    <!-- Product Description -->
+                                    <div class="product-description">
+                                        <span>@item.GetCategoryLev2.Name</span>
+                                        <div class="row">
+                                            <div class="col">
+                                                <a asp-action="Details" asp-route-id="@item.ID">
+                                                    <h6>@item.Name</h6>
+                                                </a>
+                                            </div>
+
+                                            <div class="star col">
+                                                @{
+                                                    if (item.Evaluations.Count > 0)
+                                                    {
+                                                        int eve = item.Evaluations.Sum(i => i.Value) / item.Evaluations.Count;
+
+                                                        for (int i = 0; i < eve; i++)
+                                                        {
+                                                            <i class="fa fa-star"></i>
+
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+
+                                        </div>
+                                        @{
+                                            if (item.Discount != 0)
+                                            {
+                                                <p class="product-price"><span class="old-price">RY @item.Price</span> RY @item.Discount</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="product-price">RY @item.Price</p>
+
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <nav aria-label="navigation">
+                    <partial name="_Pager1" />
+                </nav>
+            </div>
+            <input type="submit" hidden id="btnFilters"/>
+        </form>
+
+       
+    </div>
+</section>
+<!-- ##### Shop Grid Area End ##### -->
+
+
+
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-0-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS2" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+

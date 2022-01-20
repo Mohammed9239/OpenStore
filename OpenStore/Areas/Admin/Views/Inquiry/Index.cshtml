@@ -1,0 +1,75 @@
+﻿@model IEnumerable<OpenStore.Models.Notification>
+
+@{
+    ViewData["Title"] = "الاستفسارات";
+    int count = 0;
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-bell"></i>
+    <h5 class="no-margin">الاستفسارات</h5>
+</div>
+<div class="content">
+    <div class="table-head col-12">
+        <i class="fa fa-list icon "></i>
+        <h5>قائمة الاستفسارات</h5>
+    </div>
+
+    <div class="top row">
+        <div class="form col-12">
+            <form class="col-12" asp-action="Index" method="post">
+                <select name="select" class="col-4 col-lg-3 col-md-3 col-sm-3">
+                    <option value="">اختر</option>
+                    <option value="1">عنوان الاستفسار</option>
+                    <option value="2">مرسل  الاستفسار</option>
+                    <option value="3">تاريخ الاستفسار</option>
+                </select>
+                <input name="search" type="text" class="col-6 col-lg-7 col-md-7 col-sm-7 search-field" placeholder="البحث" />
+                <button type="submit" class="col-2 col-lg-2 col-md-2 col-sm-2 fa fa-search"></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table col-12">
+
+        <div class="col-12 table-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>نوع الاستفسار</td>
+                        <td>مرسل الاستفسار</td>
+                        <td>عنوان الاستفسار</td>
+                        <td>تاريخ الاستفسار</td>
+                        <td>العمليات</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(++count)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Receiver.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                            <td>
+
+                                <a asp-action="Details" asp-route-id="@item.ID"><i class="fa fa-eye fa-fw op"></i></a>
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="paging col-12">
+        <partial name="_Pager1" />
+    </div>
+</div>
+
+

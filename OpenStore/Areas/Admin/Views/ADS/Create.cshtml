@@ -1,0 +1,69 @@
+﻿@model OpenStore.Models.ADS
+@{
+    ViewData["Title"] = "إضافة إعلان";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fab fa-adversal"></i>
+    <h5 class="no-margin">الإعلانات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>إضافة إعلان</h5>
+    </div>
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a href="index.html" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+    <div class="add-form col-12">
+        <form class="row" asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <h5 class="col-12 text-right">معلومات الإعلان</h5>
+            <div class="col-6">
+                <label class="col-12 col-lg-3">اسم الإعلان</label>
+                <input asp-for="Name" placeholder="ادخل اسم الإعلان" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label class="col-12 col-lg-3">سعر الإعلان</label>
+                <input asp-for="Price" placeholder="ادخل سعر الإعلان" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="col-12">
+                <label class="col-12">حدد الصفحة</label>
+                <select id="selectUser" class="form-control col-12" asp-for="Page" asp-items="@Html.GetEnumSelectList<Page>()">
+                    <option>اختر</option>
+                </select>
+                <span asp-validation-for="Page" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label class="col-12">حدد الصفحة</label>
+                <select id="selectUser" class="form-control col-12" asp-for="Section" asp-items="@Html.GetEnumSelectList<Section>()">
+                    <option>اختر</option>
+                </select>
+                <span asp-validation-for="Section" class="text-danger"></span>
+            </div>
+
+            <h5 class="text-right col-12">صورة الإعلان</h5>
+            <div class="row img col-12">
+                <input name="Img" onchange="uploadImg(this)" class="form-control col-10 col-lg-6 col-md-6" id="file" type="file" />
+                <div id="divImg" class="col-12 col-lg-6 col-md-6 row text-center">
+                    <img id="img" class=" col-12" src="#" />
+                </div>
+            </div>
+            <div class="col-12 no-padding ">
+                <div class="col-12 no-padding no-margin">
+                    <button class="btn button-small" type="submit">
+                        <i class=" fa fa-plus"></i>اضافة
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

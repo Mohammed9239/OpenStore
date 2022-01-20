@@ -1,0 +1,111 @@
+﻿@model IEnumerable<OpenStore.Models.Notification>
+
+@{
+    ViewData["Title"] = "الاشعارات";
+    int count = 0;
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-bell"></i>
+    <h5 class="no-margin">الإشعارات</h5>
+</div>
+<div class="content">
+    <div class="table-head col-8">
+        <i class="fa fa-list icon "></i>
+        <h5>قائمة الإشعارات</h5>
+    </div>
+
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Create" class="btn button-small" type="submit">
+                <i class=" fa fa-plus"></i>اضف
+            </a>
+        </div>
+    </div>
+
+    <div class="top row">
+        <div class="form col-12">
+            <form class="col-12" asp-action="Index" method="post">
+                <select name="select" class="col-4 col-lg-3 col-md-3 col-sm-3">
+                    <option value="">اختر</option>
+                    <option value="1">عنوان الإشعار</option>
+                    <option value="2">مرسل  الإشعار</option>
+                    <option value="3">تاريخ الإشعار</option>
+                </select>
+                <input name="search" type="text" class="col-6 col-lg-7 col-md-7 col-sm-7 search-field" placeholder="البحث" />
+                <button type="submit" class="col-2 col-lg-2 col-md-2 col-sm-2 fa fa-search"></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="table col-12">
+
+        <div class="col-12 table-content">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>نوع الإشعار</td>
+                        <td>مرسل الإشعار</td>
+                        <td>عنوان الإشعار</td>
+                        <td>تاريخ الإشعار</td>
+                        <td>العمليات</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@(++count)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Type)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Receiver.FullName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Date)</td>
+                            <td>
+
+                                <a asp-action="Details" asp-route-id="@item.ID"><i class="fa fa-eye fa-fw op"></i></a>
+                                <a asp-action="Edit" asp-route-id="@item.ID"><i class="fa fa-edit fa-fw op"></i></a>
+                                <a data="@item.Title" name="id" value="@item.ID" onclick="showDialog(this)" href="#"><i class="fa fa-trash fa-fw op"></i></a>
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="paging col-12">
+        <partial name="_Pager1" />
+    </div>
+</div>
+
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName"></p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form asp-action="Delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID href="index.html" class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->

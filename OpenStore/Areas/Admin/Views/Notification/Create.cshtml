@@ -1,0 +1,51 @@
+﻿@model OpenStore.Models.Notification
+
+@{
+    ViewData["Title"] = "اضافة اشعار";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-bell"></i>
+    <h5 class="no-margin">الإشعارات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>إضافة إشعار</h5>
+    </div>
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a href="index.html" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+    <div class="add-form col-12">
+        <form class="row" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="col-12 text-right">معلومات الإشعار</h5>
+            <div class="col-6">
+                <label class="col-12 col-lg-3">عنوان الإشعار</label>
+                <input asp-for="Title" placeholder="ادخل عنوان الإشعار" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="text-center col-12 mb">
+                <label class="col-12 col-lg-3">محتوى الإشعار</label>
+                <textarea asp-for="Message" style="resize:none;" cols="10" rows="10" class="col-12 form-control" placeholder="ادخل قيمة الإشعار">
+                </textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 button-heade no-padding ">
+                <div class="col-12 no-padding no-margin">
+                    <button href="index.html" class="btn button-small" type="submit">
+                        <i class=" fa fa-plus"></i>اضافة
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+

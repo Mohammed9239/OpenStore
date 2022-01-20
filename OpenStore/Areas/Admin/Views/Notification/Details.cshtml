@@ -1,0 +1,93 @@
+﻿@model OpenStore.Models.Notification
+
+@{
+    ViewData["Title"] = "تفاصيل الاشعار";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-bell"></i>
+    <h5 class="no-margin">الإشعارات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-street-view icon"></i>
+        <h5>عرض المعلومات</h5>
+    </div>
+    <div class="col-5 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+    <div class="row col-12 information-content">
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 nopadding no-margin">
+                <div class="col-12 title">عنوان الإشعار</div>
+                <label class="col-12 value"> @Html.DisplayFor(model => model.Title) </label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">مرسل الإشعار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Receiver.FullName)</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">نوع الإشعار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Type)</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">تاريخ الإشعار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Date)</label>
+            </div>
+        </div>
+        <div class="col-12 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">الاشعار</div>
+                <label class="col-12 value">@Html.DisplayFor(model => model.Message)</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt mb row col-12 justify-center">
+        <a onclick="showDialog(this)" href="#" class="col-5 btn btn-danger ml" data="@Model.Title" name="id" value="@Model.ID">
+            <i class="pl fa fa-trash"></i>حذف
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="col-5 btn button-small mr">
+            <i class="pl fa fa-edit"></i>تعديل
+        </a>
+    </div>
+</div>
+
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName"></p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form asp-action="Delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID href="index.html" class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->

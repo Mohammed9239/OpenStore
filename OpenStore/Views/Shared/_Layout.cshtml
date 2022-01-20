@@ -1,0 +1,174 @@
+﻿@{ 
+    var cat = ViewData["CategoryLev1"] as List<CategoryLev1>;
+}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V5X86FBNH3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-V5X86FBNH3');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!-- Title  -->
+    <title>@ViewData["Title"] - متجر - الالكتروني</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Favicon  -->
+    <link rel="icon" href="~/Home/img/core-img/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="~/Home/css/core-style.min.css">
+
+</head>
+<body dir="rtl">
+
+    <!-- ##### Header Area Start ##### -->
+    <header class="header_area">
+        <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+            <!-- Classy Menu -->
+            <nav class="classy-navbar" id="essenceNav">
+                <!-- Logo -->
+                <a class="nav-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Home/img/core-img/logo1.png" alt="" style="max-width:65px"></a>
+                <!-- Navbar Toggler -->
+                <div class="classy-navbar-toggler">
+                    <span class="navbarToggler"><span></span><span></span><span></span></span>
+                </div>
+                <!-- Menu -->
+                <div class="classy-menu">
+                    <!-- close btn -->
+                    <div class="classycloseIcon">
+                        <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                    </div>
+                    <!-- Nav Start -->
+                    <div class="classynav">
+                        <ul>
+                            <li>
+                                <a href="#">الاقسام</a>
+                                <div class="megamenu">
+                                    <ul class="single-mega cat">
+                                        @foreach (var item in cat)
+                                        {
+                                            <li class="title"><a asp-area="" asp-controller="Home" asp-action="Category" asp-route-id="@item.ID" target="_blank">@item.Name</a></li>
+                                        }
+
+                                    </ul>
+                                </div>
+                            </li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Shop" target="_blank">تسوق</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Contact">تواصل معنا</a></li>
+                        </ul>
+                    </div>
+                    <!-- Nav End -->
+                </div>
+            </nav>
+
+            <!-- Header Meta Data -->
+            <div class="header-meta d-flex clearfix justify-content-end">
+                <!-- Search Area -->
+                <div class="search-area">
+                    <form asp-action="Shop">
+                        <input type="search" name="word" id="headerSearch" placeholder="البحث عن المنتج ">
+                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+
+                <!-- User Login Info -->
+                <div class="user-login-info">
+                    <a asp-area="" asp-controller="Home" asp-action="Profile" data-toggle="tooltip" data-placement="top" title="معلومات المستخدم"><img src="/Home/img/core-img/user.svg" alt=""></a>
+                </div>
+                <!-- Cart Area -->
+                <div class="cart-area">
+                    <a asp-area="" asp-controller="Home" asp-action="Cart" id="essenceCartBtn" data-toggle="tooltip" data-placement="top" title="سلة المشتريات"><img src="/Home/img/core-img/bag.svg" alt=""> <span>@ViewData["CartCount"]</span></a>
+                </div>
+
+                <!-- Notification Area -->
+                <div class="cart-area">
+                    <a asp-area="" asp-controller="Home" asp-action="NotificationList" data-toggle="tooltip" data-placement="top" title="الاشعارات"><img src="/Home/img/core-img/notification-bell-svgrepo-com.svg" alt=""> <span>@ViewData["NotificationCount"]</span></a>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+
+
+
+    <!-- ##### Right Side Cart Area ##### -->
+
+
+    <!-- ##### Right Side Cart End ##### -->
+
+
+
+    @RenderBody()
+
+
+
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer_area clearfix">
+        <div class="container">
+            <div class="row">
+                <!-- Single Widget Area -->
+                <div class="col-12 col-md-6">
+                    <div class="single_widget_area d-flex mb-30">
+                        <!-- Logo -->
+                        <div class="footer-logo mr-50">
+                            <a  asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Home/img/core-img/logo2.png" style="max-width:71px;margin-top:-21px"/></a>
+                        </div>
+                        <!-- Footer Menu -->
+                        <div class="footer_menu">
+                            <ul>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Shop">جميع المنتجات</a></li>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Profile">الحساب</a></li>
+                                <li><a asp-area="" asp-controller="Home" asp-action="Contact">تواصل</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Single Widget Area -->
+                <div class="col-12 col-md-6">
+                    <div class="single_widget_area">
+                        <div class="footer_social_area">
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="فيسبوك"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="انستجرام"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="تويتر"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="تيلجرام"><i class="fa fa-telegram" aria-hidden="true"></i></a>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="يوتيوب"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area End ##### -->
+
+
+
+
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="~/Home/js/jquery-2.2.4.min.js"></script>
+    <!-- Popper j~/home/s -->
+    <script src="~/Home/js/popper.min.js"></script>
+    <!-- Bootstra~/home/p js -->
+    <script src="~/Home/js/bootstrap.min.js"></script>
+    <!-- Plugins ~/home/js -->
+    <script src="~/Home/js/plugins.min.js"></script>
+    <!-- Classy N~/home/av js -->
+    <script src="~/Home/js/classy-nav.min.js"></script>
+    <!-- Active j~/home/s -->
+    <script src="~/Home/js/active.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

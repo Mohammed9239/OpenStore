@@ -1,0 +1,14 @@
+﻿@model PagedList.Core.IPagedList
+@using PagedList.Core.Mvc
+
+<style>
+    .page-item.active .page-link{
+        color:#fff!important;
+    }
+</style>
+
+<pager class="pager-container" list="@Model"
+        options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly"
+        asp-action="@ViewContext.RouteData.Values["Action"]"
+        param-page-number="page" />
+

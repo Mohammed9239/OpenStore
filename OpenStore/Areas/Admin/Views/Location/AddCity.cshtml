@@ -1,0 +1,44 @@
+﻿@model OpenStore.Models.City
+
+@{
+    ViewData["Title"] = "اضافة محافظة";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-map-marked-alt"></i>
+    <h5 class="no-margin">المواقع</h5>
+</div>
+
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>إضافة محافظة</h5>
+    </div>
+    <div class="col-5 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+    <div class="add-form col-12">
+        <form class="row" asp-action="AddCity">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <h5 class="col-12 text-right">معلومات المحافظة</h5>
+            <div class="col-6">
+                <label class="col-12 col-lg-3">اسم المحافظة</label>
+                <input asp-for="Name" placeholder="ادخل اسم المحافظة" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 button-heade no-padding">
+                <div class="col-12 no-padding no-margin">
+                    <button href="index.html" class="btn button-small" type="submit">
+                        <i class=" fa fa-plus"></i>اضافة
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

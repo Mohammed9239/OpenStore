@@ -1,0 +1,257 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "تعديل المنتج";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fas fa-angry"></i>
+    <h5 class="no-margin">تعديل المنتج</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>تعديل المنتج</h5>
+    </div>
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+    <div class="add-form col-12">
+        <form class="row" asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="GetCategoryLev2ID" />
+            <input type="hidden" asp-for="StoreID" />
+            <input type="hidden" asp-for="Special" />
+            <h5 class="col-12 text-right black">معلومات البضاعة</h5>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">اسم البضاعة</label>
+                <input asp-for="Name" placeholder="ادخل اسم البضاعه" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">الكمية</label>
+                <input asp-for="Qunatity" placeholder="ادخل الكمية" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Qunatity" class="text-danger"></span>
+            </div>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">السعر</label>
+                <input asp-for="Price" placeholder="ادخل سعر البضاعة" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">الخصم</label>
+                <input asp-for="Discount" placeholder="ادخل مقدار الخصم" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="Discount" class="text-danger"></span>
+            </div>
+            <div class="text-center col-12 mb">
+                <label class="col-12 col-lg-3">وصف البضاعة</label>
+                <textarea asp-for="Description" style="resize:none;" cols="10" rows="10" class="col-12 form-control" placeholder="ادخل وصف للمنتج">
+                </textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div id="other" class="row col-12 no-padding no-margin">
+                <div class="col-6 mb">
+                    <label class="col-12 col-lg-3">الصنف الرئيسي</label>
+                    <select name="cat1" id="cat1" class="form-control" asp-items="ViewBag.GetCategoryLev1ID">
+                        <option value="">اختر</option>
+                    </select>
+                </div>
+
+                <div id="selectOption" class="col-6 mb">
+                    <label class="col-12 col-lg-3">الصنف الفرعي</label>
+                    <select id="cat2" asp-for="GetCategoryLev2ID" asp-items="ViewBag.GetCategoryLev2ID" class="form-control">
+                        <option value="">اختر</option>
+                    </select>
+                    <span asp-validation-for="GetCategoryLev2ID" class="text-danger"></span>
+                </div>
+
+                <div onchange="showSelectOption(this)" id="selectOption" class="col-6 mb">
+                    <label class="col-12 col-lg-3">الصنف الفرعي</label>
+                    <select id="cat3" asp-for="GetCategoryLev3ID" class="form-control" >
+                        <option value="">اختر</option>
+                    </select>
+                    <span asp-validation-for="GetCategoryLev3ID" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class=" text-center col-12 mt img-container no-padding">
+                <label style="justify-content: center;" href="#" for="img1" class="col-12 btn btn-dark">اختر صورة بارزة</label>
+                <input name="FavImg1" onchange="changeImgAdd1(this)" id="img1" style="display: none;" type="file">
+            </div>
+
+            <div style="background-image: url(/Uploads/ProductImg/@Model.Imgs.FirstOrDefault(i=>i.ImgUrl.StartsWith("fav"))?.ImgUrl);" id="img" class="mb imgProduct">
+            </div>
+
+            <div class=" text-center col-12 mt img-container no-padding">
+                <label style="justify-content: center;" href="#" for="img2" class="col-12 btn btn-dark">اختر صور فرعية</label>
+                <input name="Imgs" multiple onchange="changeImgAdd2(this)" id="img2" style="display: none;" type="file">
+            </div>
+
+            <div id="imgBranch" class="mx no-padding no-margin col-12 mb row text-center imgBranch-Container">
+                @foreach (var item in Model.Imgs.Where(i => !i.ImgUrl.StartsWith("fav")))
+                {
+                    <a class="row col-11 col-lg-5 mx">
+                        <div style="background-image: url(/Uploads/ProductImg/@item.ImgUrl);" class="col-12 imgBranch"></div>
+                    </a>
+                }
+            </div>
+
+            <div class="col-12 button-heade mt mb no-padding ">
+                <div class="col-12 no-padding no-margin">
+                    <button href="index.html" class="btn button-small" type="submit">
+                        <i class=" fa fa-save"></i>حفظ التعديل
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+@section Scripts {
+
+    <script>
+        $list = $("#other");
+
+        $(window).on("load", function () {
+            var selc = document.getElementById("cat2").value;
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Product/GetCatLev3/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    if (results.length > 0) {
+
+                        for (i in results) {
+                            $('#cat3').append(new Option(results[i].name, results[i].id));
+                        }
+                    }
+
+                    else {
+                        $('#cat3').find('option:not(:first)').remove();
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Product/GetPro/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                    if (results.length > 0) {
+                        for (i in results) {
+                            $list.append('<div class="pro col-6 mb">' + '<label class="col-12 col-lg-3"> ' + results[i].namep + '</h6></label>' + '<select id="pro77" name="PropertyLev2ID" class="pro1 form-control">' + '</select>' + '</div>');
+                            for (s in results[i].propertyLev2) {
+                                if (results[i].propertyLev2[s]['isSelected']) {
+                                    $('#other select:last').append('<option selected value=' + results[i].propertyLev2[s]['id'] + '>' + results[i].propertyLev2[s]['name'] + '</option>');
+                                }
+                                else {
+                                    $('#other select:last').append('<option value=' + results[i].propertyLev2[s]['id'] + '>' + results[i].propertyLev2[s]['name'] + '</option>');
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        $('.pro1').find('option:not(:first)').remove();
+                    }
+                }
+            });
+        });
+
+        $('#cat1').on("change", function () {
+            var selc = document.getElementById("cat1").value;
+            $('#cat2').find('option:not(:first)').remove();
+            $('#cat3').find('option:not(:first)').remove();
+            $('.pro').remove();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Product/GetCatLev2/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    if (results.length > 0) {
+
+                        for (i in results) {
+                            $('#cat2').append(new Option(results[i].name, results[i].id));
+                        }
+                    }
+
+                    else {
+                        $('#cat2').find('option:not(:first)').remove();
+                    }
+                }
+            });
+        });
+
+        $('#cat2').on("change", function () {
+            var selc = document.getElementById("cat2").value;
+            $('.pro').remove();
+            $('#cat3').find('option:not(:first)').remove();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Product/GetCatLev3/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                    if (results.length > 0) {
+
+                        for (i in results) {
+                            $('#cat3').append(new Option(results[i].name, results[i].id));
+                        }
+                    }
+
+                    else {
+                        $('#cat3').find('option:not(:first)').remove();
+                    }
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Product/GetPro/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    console.log(results);
+                    if (results.length > 0) {
+                        for (i in results) {
+                            $list.append('<div class="pro col-6 mb">' + '<label class="col-12 col-lg-3"> ' + results[i].namep + '</h6></label>' + '<select name="PropertyLev2ID" class="pro1 form-control">' + '</select>' + '</div>');
+                            for (s in results[i].propertyLev2) {
+                                $('#other select:last').append('<option value=' + results[i].propertyLev2[s]['id'] + '>' + results[i].propertyLev2[s]['name'] + '</option>');
+                            }
+                        }
+                    }
+                    else {
+                        $('.pro1').find('option:not(:first)').remove();
+                    }
+                }
+            });
+        });
+
+
+    </script>
+}
+

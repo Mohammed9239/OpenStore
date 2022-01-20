@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OpenStore.Models.CategoryLev3>
+
+@{
+    ViewData["Title"] = "الاصناف الفرعية";
+}
+
+<!-- ##### Breadcumb Area Start ##### -->
+<div class="breadcumb_area bg-img" style="background-image: url(/Home/img/bg-img/breadcumb.jpg);">
+    <div class="container h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col-12">
+                <div class="page-title text-center">
+                    <h2>@ViewBag.CategoryLev1Name</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Breadcumb Area End ##### -->
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS1" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->
+<!-- ##### Catagory Area Start ##### -->
+<div class="top_catagory_area section-padding-0-80 clearfix">
+    <div class="container">
+        <div class="row justify-content-center">
+            @foreach (var item in Model)
+            {
+                <!-- Single Catagory -->
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Uploads/CatImg/@item.ImgUrl);">
+                        <div class="catagory-content">
+                            <a asp-action="shop" asp-route-CategoryLev3="@item.ID" target="_blank">@item.Name</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- ##### Catagory Area End ##### -->
+<!-- ##### ADS Area Start ##### -->
+<div class="ads-img section-padding-80">
+    <div class="row">
+        <div class="col-12">
+            <img src="/Uploads/ADS/@ViewBag.ADS2" />
+        </div>
+    </div>
+</div>
+<!-- ##### ADS Area End ##### -->

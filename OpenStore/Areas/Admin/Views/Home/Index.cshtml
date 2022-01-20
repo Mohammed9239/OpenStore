@@ -1,0 +1,174 @@
+﻿@model OpenStore.Areas.Admin.Models.HomeVm
+@{
+    ViewData["Title"] = "الرئيسية";
+    int OrderCount = 0;
+    int InquireCount = 0;
+    int UserCount = 0;
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-dashboard"></i>
+    <h5 class="no-margin">الرئيسية</h5>
+</div>
+
+<div class="content">
+    <div class="table-head col-7">
+        <i class="fa fa-dashboard icon "></i>
+        <h5>الإحصائيات</h5>
+    </div>
+
+    <div class="col-5 button-heade">
+        <form asp-action="Index">
+            <div class="col-12 no-padding no-margin">
+                <select name="Date" class="btn" onchange="document.getElementById('btnSubmit').click();">
+                    <option value="">اختر</option>
+                    <option value="day">اليوم</option>
+                    <option value="week"> اخر اسبوع</option>
+                    <option value="month">اخر شهر</option>
+                </select>
+            </div>
+            <input id="btnSubmit" hidden type="submit" value="submit" />
+        </form>
+    </div>
+
+    <div class="content">
+        <div class="dachboard-status row col-12">
+            <div class="card col-lg-3 col-md-6 col-12">
+                <div class="card-content text-center">
+                    <h5>المبيعات</h5>
+                    <h5>@Model.Sales</h5>
+                </div>
+            </div>
+            <div class="card col-lg-3 col-md-6 col-12">
+                <div class="card-content text-center">
+                    <h5>الطلبات الغير مكتمله</h5>
+                    <h5>@Model.UnCompletedOrder</h5>
+                </div>
+            </div>
+            <div class="card col-lg-3 col-md-6 col-12">
+                <div class="card-content text-center">
+                    <h5>الطلبات المكتملة</h5>
+                    <h5>@Model.CompletedOrder</h5>
+                </div>
+            </div>
+            <div class="card col-lg-3 col-md-6 col-12">
+                <div class=" card-content text-center">
+                    <h5>عدد الاستفسارات</h5>
+                    <h5>@Model.Inquire</h5>
+                </div>
+            </div>
+            <div class="card col-lg-3 col-md-6 col-12">
+                <div class=" card-content text-center">
+                    <h5>عدد البائعين</h5>
+                    <h5>@Model.Saler</h5>
+                </div>
+            </div>
+            <div class="card col-lg-3 col-md-6 col-12">
+                <div class=" card-content text-center">
+                    <h5>عدد المشترين</h5>
+                    <h5>@Model.Customer</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="table col-12">
+            <div class="table-head col-12">
+                <i class="fa fa-cart-plus icon green"></i>
+                <h5>اخر الطلبات</h5>
+            </div>
+            <div class="col-12 table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>اسم العميل</td>
+                            <td>الاجمالي</td>
+                            <td>التاريخ</td>
+                            <td>العمليات</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Orders)
+                        {
+                            <tr>
+                                <td>@(++OrderCount)</td>
+                                <td>@item.SallerName</td>
+                                <td>@item.Cost</td>
+                                <td>@item.Date</td>
+                                <td>
+                                    <a asp-controller="Order" asp-action="Details" asp-route-id="@item.ID" ><i class="fa fa-eye fa-fw op"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="table col-12 row">
+            <div class="table col-lg-6 col-md-12">
+                <div class="table-head col-12">
+                    <i class="fas fa-angry icon red"></i>
+                    <h5>اخر الاستفسارات</h5>
+                </div>
+                <div class="col-12 table-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>الاسم</td>
+                                <td>العنوان</td>
+                                <td>عمليات</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Notifications)
+                            {
+                                <tr>
+                                    <td>@(++InquireCount)</td>
+                                    <td>@item.Receiver.FullName</td>
+                                    <td>@item.Title</td>
+                                    <td>
+                                        <a asp-controller="Notification" asp-action="Details" asp-route-id="@item.ID" ><i class="fa fa-eye fa-fw op"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="table col-lg-6 col-md-12">
+                <div class="table-head col-12">
+                    <i class="fa fa-chart-pie icon"></i>
+                    <h5>اخر المستخدمين المضافين</h5>
+                </div>
+                <div class="col-12 table-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>اسم المستخدم</td>
+                                <td>نوع المستخدم</td>
+                                <td>عمليات</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Users)
+                            {
+                                <tr>
+                                    <td>@(++UserCount)</td>
+                                    <td>@item.FullName</td>
+                                    <td>@String.Join(" , ",item.roles)</td>
+                                    <td>
+                                        <a asp-controller="User" asp-action="Details" asp-route-id="@item.UserName" ><i class="fa fa-eye fa-fw op"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

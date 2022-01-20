@@ -1,0 +1,131 @@
+﻿@model OpenStore.Areas.Admin.Models.UserVm
+
+@{
+    ViewData["Title"] = "إضافة مستخدم";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-users"></i>
+    <h5 class="no-margin">المستخدمين</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>إضافة مستخدم</h5>
+    </div>
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+    <div class="add-form col-12">
+        <form class="row" asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <h5 class="col-12 text-right">المعلومات الشخصية</h5>
+            <div class="col-6">
+                <label class="col-12 col-lg-3">اسم المستخدم</label>
+                <input asp-for="UserName" placeholder="ادخل اسم المستخدم مثل: mohammed_75" class="form-control col-12 col-lg-9" />
+            </div>
+            <div class="col-6">
+                <label class="col-12 col-lg-3">كلمة المرور</label>
+                <input asp-for="Password" placeholder="ادخل كلمة المرور" class="form-control col-12 col-lg-9" />
+            </div>
+
+            <div class="col-6">
+                <label class="col-12 col-lg-3"> الاسم كامل</label>
+                <input asp-for="FullName" placeholder="ادخل الاسم كامل" class="form-control col-12 col-lg-9" />
+            </div>
+
+            <div class="col-6">
+                <label class="col-12 col-lg-3">البريد الإلكتروني</label>
+                <input asp-for="Email" placeholder="ادخل البريد الإلكتروني" class="form-control col-12 col-lg-9" />
+            </div>
+            <div class="col-12">
+                <label class="col-12">نوع المستخدم</label>
+                <select asp-for="RoleID" id="selectUser" onchange="ifSeller(this)" class="form-control col-12" asp-items="ViewBag.roles">
+                    <option value="">اختر</option>
+                </select>
+            </div>
+            <div id="commercialNumber" style="display: none;" class="col-12">
+                <label class="col-lg-4">رقم السجل التجاري</label>
+                <input asp-for="CommercialNumber" id="commercialNumberFiled" placeholder="ادخل رقم السجل التجاري" class="form-control col-lg-8" type="text" />
+            </div>
+            <div class="location row col-12">
+                <h5 class="col-12 text-right">الموقع</h5>
+                <div class="col-6">
+                    <label class="col-6">المحافظة</label>
+                    <select id="Getsub" class="form-control col-12" asp-items="ViewBag.CityID">
+                        <option>اختر</option>
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label class="col-6">المدينة</label>
+                    <select asp-for="ProvinceID" id="select1" class="form-control col-12">
+                        <option>اختر</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label class="col-12">المنطقة</label>
+                    <input asp-for="Address" class="form-control" placeholder="ادخل المنطقة التي تعيش فيها" />
+                </div>
+
+                <h5 class="text-right col-12">الصورة الشخصية</h5>
+                <div class="row img col-12">
+                    <input name="UserImg" onchange="uploadImg(this)" class="col-10 col-lg-6 col-md-6" id="file" class="form-control" type="file" />
+                    <div id="divImg" class="hidden-img col-12 col-lg-6 col-md-6 row text-center">
+                        <img id="img" class=" col-12" src="#" />
+                    </div>
+                </div>
+                <div class="col-12 button-heade no-padding ">
+                    <div class="col-12 no-padding no-margin">
+                        <a href="index.html">
+
+
+                        </a>
+                        <button class="btn button-small" type="submit">
+                            <i class=" fa fa-save"></i>
+                            اضافة
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    
+
+    <script>
+       
+        $('#Getsub').on("change", function () {
+            var selc = document.getElementById("Getsub").value;
+            $('#select1').find('option:not(:first)').remove();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/User/getsub/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    $('#show').show();
+                    results = JSON.parse(data);
+                    if (results.length > 0) {
+                        for (i in results) {
+                            $('#select1').append(new Option(results[i].name, results[i].id));
+                        }
+                    }
+                }
+            });
+        });
+
+
+
+
+    </script>
+}

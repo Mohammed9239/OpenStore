@@ -1,0 +1,48 @@
+﻿@model OpenStore.Models.CategoryLev1
+
+@{
+    ViewData["Title"] = "تعديل صنف رئيسي";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-chart-pie"></i>
+    <h5 class="no-margin">تعديل صنف رئيسي</h5>
+</div>
+<div class="col-12 content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-edit icon"></i>
+        <h5>تعديل صنف</h5>
+    </div>
+    <div class="mb col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+    <form class="col-12 row" asp-action="EditCategoryLev1" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="ImgUrl" />
+
+        <div class="mb no-padding text-right col-12">
+            <label class="balck col-12">اسم الصنف</label>
+            <input asp-for="Name" placeholder="ادخل اسم الصنف" class="form-control col-12" />
+        </div>
+
+        <div class="col-12 mb text-center">
+            <label for="files" class="col-12 balck btn btn-secondary">اختر صورة</label>
+            <input name="CatImg" id="files" style="display: none;" onchange="changeImgAdd(this)" type="file" />
+            <img id="img" class="col-12 no-padding no-margin mb black img-width-height" src="/Uploads/CatImg/@Model.ImgUrl">
+        </div>
+        <div class="col-12 button-heade">
+            <div class="col-12 no-padding no-margin">
+                <button class="btn button-small" type="submit">
+                    <i class=" fa fa-save"></i>حفظ التعديل
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+

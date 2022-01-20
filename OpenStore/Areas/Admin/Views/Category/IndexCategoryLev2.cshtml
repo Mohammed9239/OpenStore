@@ -1,0 +1,84 @@
+﻿@model IEnumerable<OpenStore.Models.CategoryLev2>
+
+@{
+    ViewData["Title"] = "الأصناف الفرعية";
+    //string id = Model.FirstOrDefault().CategoryLev1ID.ToString() ?? "0";
+    var id = ViewContext.RouteData.Values["id"];
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-chart-pie"></i>
+    <h5 class="no-margin">الأقسام الفرعية</h5>
+</div>
+
+<div class="text-center col-12">
+    <form class="mt" asp-action="IndexCategoryLev2">
+        <div class="no-padding no-margin row justify-content-center col-12">
+            <select id="GetId" name="id" class="mb col-8 form-control" asp-items="ViewBag.CategoryLev1ID" onchange="document.getElementById('btnSubmit').click();">
+            </select>
+        </div>
+        <a id="add" class="btn button-small col-10  col-lg-4 col-md-4 mt mb">
+            <i class="fa fa-plus"></i>
+            إضافة قسم فرعي جديد
+        </a>
+        <input id="btnSubmit" hidden type="submit" value="submit" />
+    </form>
+</div>
+
+<div class="row col-12 information-content no-margin">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-8 col-lg-3 col-md-3 all-information">
+            <form asp-action="EditCategoryLev2" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="@item.ID" />
+                <input type="hidden" name="CategoryLev1ID" value="@item.CategoryLev1ID" />
+                <input type="hidden" name="ImgUrl" value="@item.ImgUrl" />
+                <div class="col-12 no-padding no-margin">
+                    <input name="Name" class="col-12 title form-control mb text-center" value="@item.Name">
+                    <label style="cursor: pointer;" for="@item.ID">
+                        <img for="file" class="img-width-height" src="~/Uploads/CatImg/@item.ImgUrl" />
+                    </label>
+                    <input name="CatImg" onchange="changeImgAdd4(this)" id="@item.ID" type="file" style="display:none;" />
+                </div>
+                <div class="mt number col-12">
+                    <input name="Index" value="@item.Index" style="width: 40px; text-align: center;" inputmode="numeric" />
+                </div>
+                <a asp-action="IndexPropertyLev1" asp-route-cat1ID="@item.CategoryLev1ID" asp-route-cat2ID="@item.ID" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-search"></i>
+                    الخصائص
+                </a>
+                <a asp-action="IndexCategoryLev3" asp-route-id="@item.ID" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-search"></i>
+                    الاقسام الفرعية
+                </a>
+                <button type="submit" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-save"></i>
+                    حفظ التعديلات
+                </button>
+            </form>
+        </div>
+
+    }
+
+</div>
+
+@section Scripts {
+
+    <script>
+
+        var selc = document.getElementById("GetId").value;
+        $('#GetId').on("change", function () {
+            selc = document.getElementById("GetId").value;
+            $('#add').attr('href', '/Admin/Category/AddCategoryLev2/' + selc);
+        });
+
+        $('#add').on("click", function () {
+            selc = document.getElementById("GetId").value;
+            $('#add').attr('href', '/Admin/Category/AddCategoryLev2/' + selc);
+        });
+
+
+
+    </script>
+}

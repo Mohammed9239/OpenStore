@@ -1,0 +1,106 @@
+﻿@model IEnumerable<OpenStore.Models.PropertyLev1>
+
+@{
+    ViewData["Title"] = "الخاصية";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-chart-pie"></i>
+    <h5 class="no-margin">الخواص</h5>
+</div>
+<div class="text-center col-12">
+    <form class="mt" asp-action="IndexPropertyLev1">
+        <div class="no-padding no-margin row justify-content-center col-12">
+            <select id="cat1" class="mb col-8 form-control" name="cat1ID" asp-items="ViewBag.CategoryLev1ID">
+            </select>
+        </div>
+        <div class="no-padding no-margin row justify-content-center col-12">
+            <select id="cat2" class="mb col-8 form-control" name="cat2ID" asp-items="ViewBag.CategoryLev2ID" onchange="document.getElementById('btnSubmit').click();">
+                <option value="">اختر</option>
+            </select>
+        </div>
+        <a id="add" class="btn button-small col-10  col-lg-4 col-md-4 mt mb">
+            <i class="fa fa-plus"></i>
+            إضافة خاصية جديدة
+        </a>
+        <input id="btnSubmit" hidden type="submit" value="submit" />
+    </form>
+</div>
+
+
+<div class="row col-12 information-content no-margin">
+
+
+    @foreach (var item in Model)
+    {
+        <div class="col-8 col-lg-3 col-md-3 all-information">
+            <form asp-action="EditPropertyLev1" method="post">
+                <input type="hidden" name="id" value="@item.ID" />
+                <input type="hidden" name="CategoryLev2ID" value="@item.CategoryLev2ID" />
+                <input type="hidden" name="Cat1ID" value="@item.CategoryLev2.CategoryLev1ID" />
+
+
+                <div class="col-12 no-padding no-margin">
+                    <input name="Name" class="col-12 title form-control mb text-center" value="@item.Name">
+                </div>
+                <div class="mt number col-12">
+                    <input name="Index" value="@item.Index" style="width: 40px; text-align: center;" inputmode="numeric" />
+                </div>
+                <a asp-action="IndexPropertyLev2"  asp-route-ProID="@item.ID" asp-route-cat2ID="@item.CategoryLev2ID" type="submit" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-search"></i>
+                    استعراض
+                </a>
+                <button type="submit" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-save"></i>
+                    حفظ التعديلات
+                </button>
+            </form>
+        </div>
+
+    }
+
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        $('#cat1').on("change", function () {
+            var selc = document.getElementById("cat1").value;
+            $('#cat2').find('option:not(:first)').remove();
+            $.ajax({
+                type: "GET",
+                url: "/Admin/Category/GetCatLev2/" + selc,
+                dataType: 'text',
+                contentType: "application/json",
+                success: function (data) {
+                    results = JSON.parse(data);
+                    if (results.length > 0) {
+
+                        for (i in results) {
+                            $('#cat2').append(new Option(results[i].name, results[i].id));
+                        }
+                    }
+
+                    else {
+                        $('#cat2').find('option:not(:first)').remove();
+                    }
+                }
+            });
+        });
+
+        var selc = document.getElementById("cat2").value;
+        $('#cat2').on("change", function () {
+            selc = document.getElementById("cat2").value;
+            $('#add').attr('href', '/Admin/Category/AddPropertyLev1/' + selc);
+        });
+
+        $('#add').on("click", function () {
+            selc = document.getElementById("cat2").value;
+            $('#add').attr('href', '/Admin/Category/AddPropertyLev1/' + selc );
+        });
+
+
+    </script>
+}

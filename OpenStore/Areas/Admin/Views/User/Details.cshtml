@@ -1,0 +1,128 @@
+﻿@model OpenStore.Areas.Admin.Models.UserVm
+
+@{
+    ViewData["Title"] = "تفاصيل المستخدم";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-users"></i>
+    <h5 class="no-margin">المستخدمين</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-street-view icon"></i>
+        <h5>عرض المعلومات</h5>
+    </div>
+    <div class="col-5 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a href="index.html" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+    <div class="col-12 text-center display-img">
+        <a href="~/Uploads/UserImg/@Model.PhotoUrl">
+            <img src="~/Uploads/UserImg/@Model.PhotoUrl" style="max-width:315px" />
+        </a>
+    </div>
+
+    <div class="row col-12 information-content">
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 nopadding no-margin">
+                <div class="col-12 title">الإسم</div>
+                <label class="col-12 value">@Model.FullName</label>
+            </div>
+        </div>
+        @*<div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">كلمة المرور</div>
+                <label class="col-12 value">@Model.Password</label>
+            </div>
+        </div>*@
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">البريد الإلكتروني</div>
+                <label class="col-12 value">@Model.Email</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">نوع الحساب</div>
+                <label class="col-12 value">@String.Join(" , ", Model.roles.ToList())</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">اسم المستخدم</div>
+                <label class="col-12 value">@Model.UserName</label>
+            </div>
+        </div>
+        @{
+            if (Model.roles.Any(i => i.Contains("متجر")))
+            {
+                <div class="col-8 col-lg-4 col-md-4 all-information">
+                    <div class="col-12 no-padding no-margin">
+                        <div class="col-12 title">رقم السجل التجاري</div>
+                        <label class="col-12 value">@Model.CommercialNumber</label>
+                    </div>
+                </div>
+            }
+        }
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">المحافظة</div>
+                <label class="col-12 value">@Model.City</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">المديرية</div>
+                <label class="col-12 value">@Model.Province</label>
+            </div>
+        </div>
+        <div class="col-8 col-lg-4 col-md-4 all-information">
+            <div class="col-12 no-padding no-margin">
+                <div class="col-12 title">المنطقة</div>
+                <label class="col-12 value">@Model.Address</label>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt mb row col-12 justify-center">
+        <a onclick="showDialog(this)" href="#" class="col-5 btn btn-danger ml" data="@Model.FullName" name="id" value="@Model.ID">
+            <i class="pl fa fa-trash"></i>حذف
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.ID" class="col-5 btn button-small mr">
+            <i class="pl fa fa-edit"></i>تعديل
+        </a>
+    </div>
+</div>
+
+<!-- Start Delete Message -->
+<div id="dialog" class="dialog">
+    <div class="overlay"></div>
+
+    <div class="form-dialog">
+        <div class="message">
+            <h5>هل أنت متأكد من حذف؟</h5>
+            <p id="messageName"></p>
+        </div>
+
+        <div class="buttons">
+            <a onclick="hideDialog()" href="#" class="col-5 btn btn-secondary">
+                <i class="fa fa-arrow-right"></i>
+                <span class="no-margin">تراجع</span>
+            </a>
+            <form asp-action="delete">
+                <input type="hidden" />
+                <button onclick="hideDialog()" id=deleteID href="index.html" class="col-5 btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    <span class="no-margin">حذف</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Message -->

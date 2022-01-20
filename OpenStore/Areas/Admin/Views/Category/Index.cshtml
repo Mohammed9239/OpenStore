@@ -1,0 +1,115 @@
+﻿@model IEnumerable<OpenStore.Models.CategoryLev1>
+
+@{
+    ViewData["Title"] = "الأصناف الرئيسية";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-chart-pie"></i>
+    <h5 class="no-margin">الأقسام</h5>
+</div>
+<div class="text-center col-12">
+    <a asp-action="AddCategoryLev1" class="btn button-small col-10  col-lg-4 col-md-4 mt mb">
+        <i class="fa fa-plus"></i>
+        إضافة قسم جديد
+    </a>
+</div>
+
+<div class="row col-12 information-content no-margin">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-8 col-lg-3 col-md-3 all-information">
+            <form asp-action="EditCategoryLev1" enctype="multipart/form-data" class="col-12">
+                <input type="hidden" name="id" value="@item.ID" />
+                <input type="hidden" name="ImgUrl" value="@item.ImgUrl" />
+                <div class="col-12 no-padding no-margin">
+                    <input name="Name" class="col-12 title form-control mb text-center" value="@item.Name">
+                    <label style="cursor: pointer;" for="@item.ID">
+                        <!-- but the id of element in  {label attrebute for}  && {img attrbute  id} -->
+                        <img for="file" class="img-width-height" src="~/Uploads/CatImg/@item.ImgUrl" />
+                    </label>
+                    <input name="CatImg" onchange="changeImgAdd4(this)" id="@item.ID" type="file" style="display:none;" />
+                </div>
+
+                <div class="mt number col-12">
+                    <input name="Index" value="@item.Index" style="width: 40px; text-align: center;" inputmode="numeric" />
+                </div>
+                <a asp-action="IndexCategoryLev2" asp-route-id="@item.ID" type="submit" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-search"></i>
+                    استعراض
+                </a>
+                <button href="#" type="submit" class="mt text-center number col-12 btn button-small2">
+                    <i class="fa fa-save"></i>
+                    حفظ التعديلات
+                </button>
+            </form>
+        </div>
+    }
+
+</div>
+
+
+
+
+
+
+
+@*@section Scripts {
+
+    <script>
+
+        var selc = document.getElementById("GetId").value;
+        $('#GetId').on("change", function () {
+            selc = document.getElementById("GetId").value;
+            $('#edit').attr('href', '../Admin/Category/EditCategoryLev1/' + selc);
+            $('#search').attr('href', '../Admin/Category/IndexCategoryLev2/' + selc);
+            $('#add').attr('href', '../Admin/Category/AddCategoryLev1/');
+        });
+
+        $('#add').on("click", function () {
+            $('#add').attr('href', '../Admin/Category/AddCategoryLev1/');
+        });
+
+        $('#delete').on("click", function () {
+            selc = document.getElementById("GetId").value;
+            if (selc == 0) {
+                $('#dialog').css("display", "none");
+            }
+
+            else {
+                $('#dialog').css("display", "flex");
+            }
+
+            $('#DeleteID').val(selc);
+            $('#DeleteID').attr("name", "id");
+
+        });
+
+        $('#edit').on("click", function () {
+            selc = document.getElementById("GetId").value;
+            console.log(selc);
+            if (selc == 0) {
+                return false
+            }
+            else {
+                $('#edit').attr('href', '../Admin/Category/EditCategoryLev1/' + selc);
+
+            }
+        });
+
+        $('#search').on("click", function () {
+            selc = document.getElementById("GetId").value;
+            console.log(selc);
+            if (selc == 0) {
+                return false
+            }
+            else {
+                $('#search').attr('href', '../Admin/Category/IndexCategoryLev2/' + selc);
+
+            }
+        });
+
+
+    </script>
+}*@

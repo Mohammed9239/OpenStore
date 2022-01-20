@@ -1,0 +1,186 @@
+﻿@model OrderVm
+@{
+    ViewData["Title"] = "تعديل الطلب";
+    int count = 0;
+    int sum = 0;
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa fa-shopping-bag"></i>
+    <h5 class="no-margin">الطلبات</h5>
+</div>
+<div class="content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>تعديل الطلبية</h5>
+    </div>
+    <div class="col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="Index" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+    <div class="add-form col-12">
+        <form class="row" asp-action="Edit">
+            <input type="hidden" asp-for="ID" />
+            <h5 class="col-12 text-right">المعلومات الشخصية</h5>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">اسم المشتري</label>
+                <input asp-for="SallerName" placeholder="ادخل اسم المشتري" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="SallerName" class="text-danger"></span>
+            </div>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">رقم السند</label>
+                <input asp-for="BankNum" placeholder="ادخل رقم السند" class="form-control col-12 col-lg-9" />
+                <span asp-validation-for="BankNum" class="text-danger"></span>
+            </div>
+            <div class="col-12"></div>
+            <h5 class="col-12 text-right black">حالة الطلب</h5>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">حاله الطلب</label>
+                <select asp-for="State" class="form-control  col-12 col-lg-9" asp-items="Html.GetEnumSelectList<State>()">
+                    <option>اختر</option>
+                </select>
+            </div>
+            <div class="col-12"></div>
+            <h5 class="col-12 text-right black">الموقع</h5>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">المحافظة</label>
+                <select asp-for="CityID" class="form-control  col-12 col-lg-9" asp-items="ViewBag.CityID">
+                    <option>اختر</option>
+                </select>
+            </div>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">المدينة</label>
+                <select asp-for="ProvinceID" class="form-control  col-12 col-lg-9" asp-items="ViewBag.ProvinceID">
+                    <option>اختر</option>
+                </select>
+            </div>
+            <div class="col-6 mb">
+                <label class="col-12 col-lg-3">الموقع</label>
+                <input asp-for="Street" placeholder="ادخل موقع التسليم" class="form-control col-12 col-lg-9" type="text" />
+            </div>
+
+
+            <div class="col-12"></div>
+            <h5 class="col-12 text-right black">الفاتورة</h5>
+
+            <div class="table no-padding col-12">
+
+                <div class="col-12 table-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>تحديد</td>
+                                <td>#</td>
+                                <td>السعر</td>
+                                <td>الكمية</td>
+                                <td> المنتج</td>
+                                <td>الصنف الرئيسي</td>
+                                <td>الصنف الفرعي</td>
+                                <td>العمليات</td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody" onchange="totalsChange()">
+
+                            @{ foreach (var item in Model.OrderProducts)
+                                {
+                                    <tr>
+                                        <input class="ids" type="hidden" name="IdO" value="@item.ID" />
+                                        <td><input name="select" value="true" class="checkbox" type="checkbox" /></td>
+                                        <td>@(++count)</td>
+                                        <td data="@item.Price">@(item.Price * item.Quantity)</td>
+                                        <td><input value="@item.Quantity" name="Qun" onchange="changePrice(this)" min="1" style="width: 60px;" type="number"></td>
+                                        <td>@item.Product.Name</td>
+                                        <td>@item.Product.GetCategoryLev2.CategoryLev1.Name</td>
+                                        <td>@item.Product.GetCategoryLev2.Name</td>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductID"><i class="fa fa-eye fa-fw op"></i></a>
+                                        </td>
+                                    </tr>
+
+
+                                    sum += item.Quantity;
+
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-12 mt mb">
+                <a id="delete" onclick="isSelected()" style="margin-bottom: 10px;" class="btn btn-danger">
+                    <i class="fa fa-trash"></i>
+                    حذف المحدد
+                </a>
+                <button style="margin-bottom: 10px;" href="#" class="btn button-small" type="submit">
+                    <i class="fa fa-save"></i>
+                    حفظ التعديلات
+                </button>
+            </div>
+            <div style="width: 150px; display: grid; justify-content: end;" class="col-12 totals on-margin no-padding">
+                <div style="border-bottom: 2px black solid;" class="mb  head">
+                    الإجمالي
+                </div>
+
+                <div style="display: inline;" id="totals" class="text-right">
+                    الإجمالي<p> @Model.Cost</p>
+                    الكمية<p> @sum</p>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+
+@section Scripts{
+
+    <script>
+        // Function To Get The Value Of Checkbox The Prouduct in the Order
+        //function isSelected() {
+        //    var checkbox = document.getElementsByClassName('checkbox');
+        //    var ids = [];
+        //    var id = document.getElementsByClassName('ids');
+        //    for (var i = 0; i < checkbox.length; i++) {
+        //        if (checkbox[i].checked) {
+        //            ids.push(id[i].value);
+        //        }
+        //    };
+        //    console.log(ids);
+        //}
+
+        $("#delete").on("click", function () {
+            var checkbox = document.getElementsByClassName('checkbox');
+            var ids = [];
+            var id = document.getElementsByClassName('ids');
+            for (var i = 0; i < checkbox.length; i++) {
+                if (checkbox[i].checked) {
+                    ids.push(parseInt(id[i].value));
+                }
+            };
+            console.log(ids);
+            for (var i = 0; i < ids.length; i++) {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/Order/DeleteOrderProduct/" + ids[i],
+                    dataType: 'text',
+                    contentType: "application/json",
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            }
+            
+        });
+
+        
+    </script>
+
+
+}

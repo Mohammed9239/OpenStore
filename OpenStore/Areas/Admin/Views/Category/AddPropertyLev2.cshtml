@@ -1,0 +1,50 @@
+﻿@model OpenStore.Models.PropertyLev2
+
+@{
+    ViewData["Title"] = "إضافة قسم للخاصية";
+}
+
+<div class="row col-12 content-heade">
+    <i class="fa fa-chart-pie"></i>
+    <h5 class="no-margin">إضافة قسم للخاصية</h5>
+</div>
+<div class="col-12 content row">
+    <div class="table-head col-7 no-padding">
+        <i class="fa fa-plus icon"></i>
+        <h5>إضافة قسم للخاصية</h5>
+    </div>
+    <div class="mb col-4 button-heade no-padding ">
+        <div class="col-12 no-padding no-margin">
+            <a asp-action="IndexPropertyLev2" asp-route-id="@ViewContext.RouteData.Values["id"]" class="btn button-small" type="submit">
+                <i class=" fa fa-list"></i>القائمة
+            </a>
+        </div>
+    </div>
+
+    <form asp-action="AddPropertyLev2" enctype="multipart/form-data" class="col-12">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb no-padding text-right col-12">
+            <label class="balck col-12">اسم قسم الخاصية</label>
+            <input asp-for="Name" placeholder="ادخل اسم قسم الخاصية" class="form-control col-12" />
+        </div>
+
+        <div class="mb no-padding text-right col-12">
+            <label class="balck col-12">ترتيب الخاصية</label>
+            <input asp-for="Index" placeholder="ادخل ترتيب الخاصية" class="form-control col-12" />
+        </div>
+
+        <div class="col-12 mb text-center">
+            <label for="files" class="col-12 balck btn btn-secondary">اختر صورة</label>
+            <input name="ProImg" id="files" style="display: none;" onchange="changeImgAdd(this)" type="file" />
+            <img id="img" class="col-12 no-padding no-margin mb black img-width-height" src="../img/500.png">
+        </div>
+
+        <div class="col-12 button-heade">
+            <div class="col-12 no-padding no-margin">
+                <button class="btn button-small" type="submit">
+                    <i class=" fa fa-plus"></i>إضافة
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
